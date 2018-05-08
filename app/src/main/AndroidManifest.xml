@@ -20,38 +20,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.Login.LoginActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity android:name=".ui.Register.RegisterActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".SignInActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".HomeActivity" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.Lesson.LessonActivity"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".ui.Subscription.SubscribeActivity" />
-        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".UserChannelActivity" />
+        <activity android:name=".AllChannelListActivity" />
 
-        <provider
-            android:name=".data.QuizProvider"
-            android:authorities="org.sairaa.scholarquiz"
-            android:exported="false" />
+        <activity android:name=".MyScorecardChannelActivity" />
+        <activity android:name=".MyScoreQuizListActivity" />
+        <activity android:name=".MyScorecardActivity" />
 
-        <activity android:name=".ui.User.QuizActivity" />
-        <activity android:name=".ui.Moderator.QuizModeratorActivity" />
-        <activity android:name=".ui.Moderator.Question.QuestionListActivity" />
-        <activity android:name=".ui.Moderator.Question.QuestionAddActivity" />
-        <activity android:name=".ui.Admin.MasterAdminActivity"></activity>
+        <activity android:name=".LeaderboardChannelActivity" />
+        <activity android:name=".LeaderboardQuizListActivity" />
+        <activity android:name=".LeaderScoreboardActivity" />
+
+        <activity android:name=".QuizListActivity" />
+        <activity android:name=".CreateQuizActivity" />
+        <activity android:name=".CreateQuizQuestionActivity" />
+
+        <activity android:name=".QuizScoreActivity" />
+        <activity android:name=".QuizActivity"/>
     </application>
 
 </manifest>
