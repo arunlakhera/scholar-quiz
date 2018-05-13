@@ -5,12 +5,12 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class ChannelList {
 
-    public String Moderator;
-    private String ModeratorID;
-    public String Name;
-    public String channelId;
-    String totalNumberOfQuiz;
-    String totalUserQuiz;
+    public String mModerator;
+    public String mModeratorID;
+    public String mName;
+    public String mchannelId;
+    public String mtotalNumberOfQuiz;
+    public String mtotalUserQuiz;
 
     public ChannelList() {
         /*Blank default constructor essential for Firebase*/
@@ -18,41 +18,41 @@ public class ChannelList {
 
     public ChannelList(String Moderator, String ModeratorID, String Name, String channelId) {
 
-        this.Moderator = Moderator;
-        this.ModeratorID = ModeratorID;
-        this.Name = Name;
-        this.channelId = channelId;
+        this.mModerator = Moderator;
+        this.mModeratorID = ModeratorID;
+        this.mName = Name;
+        this.mchannelId = channelId;
 
     }
 
     public ChannelList(String Moderator, String ModeratorID, String Name, String channelId, String totalNumberOfQuiz, String totalUserQuiz) {
 
-        this.Moderator = Moderator;
-        this.ModeratorID = ModeratorID;
-        this.Name = Name;
-        this.channelId = channelId;
-        this.totalNumberOfQuiz = totalNumberOfQuiz;
-        this.totalUserQuiz = totalUserQuiz;
+        this.mModerator = Moderator;
+        this.mModeratorID = ModeratorID;
+        this.mName = Name;
+        this.mchannelId = channelId;
+        this.mtotalNumberOfQuiz = totalNumberOfQuiz;
+        this.mtotalUserQuiz = totalUserQuiz;
     }
 
     public String getModeratorName() {
-        return Moderator;
+        return mModerator;
     }
     public String getModeratorID() {
-        return ModeratorID;
+        return mModeratorID;
     }
     public String getChannelName() {
-        return Name;
+        return mName;
     }
     public String getChannelId() {
-        return channelId;
+        return mchannelId;
     }
 
     public String getTotalNumberOfQuiz() {
-        return totalNumberOfQuiz;
+        return mtotalNumberOfQuiz;
     }
 
     public String getTotalUserQuiz() {
-        return totalUserQuiz;
+        return mtotalUserQuiz;
     }
 }

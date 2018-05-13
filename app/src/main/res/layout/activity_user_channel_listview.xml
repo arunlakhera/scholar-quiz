@@ -48,8 +48,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:text="CHANNELS"
+            android:layout_centerHorizontal="true"
+            android:text="My Channel's"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="25dp"
@@ -57,12 +57,23 @@
             android:layout_marginTop="10dp"
             />
 
+        <SearchView
+            android:id="@+id/searchview_UserChannel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/title_ImageView"
+            android:background="@drawable/leaderboard_blue_bg"
+
+            />
+
         <ListView
             android:id="@+id/listView_UserChannel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/title_ImageView"
-
+            android:layout_below="@id/searchview_UserChannel"
             android:divider="#000000"
             android:footerDividersEnabled="false"
             android:scrollbars="vertical" />
@@ -76,10 +87,25 @@
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/design_button_yellow"
+            android:background="@drawable/home_brown"
             android:textColor="#E91E63"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:onClick="homeButton"
+            />
 
+        <TextView
+            android:id="@+id/textView_BlinkText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Channel"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="5dp"
+            android:textColor="#000000"
+            android:textStyle="italic"
+            android:textSize="12sp"
+            android:layout_above="@id/button_ChannelList"
+            />
         <Button
             android:id="@+id/button_ChannelList"
             android:layout_width="60dp"
@@ -88,6 +114,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="2dp"
             android:background="@drawable/addbutton_yellow" />
 

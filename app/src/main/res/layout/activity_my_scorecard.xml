@@ -47,12 +47,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
             android:text="Quiz Score"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:textStyle="bold" />
 
         <Button
@@ -64,9 +64,11 @@
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/design_button_yellow"
+            android:background="@drawable/home_brown"
             android:textColor="#E91E63"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:onClick="homeButton"
+            />
 
         <android.support.v7.widget.CardView
             android:id="@+id/score_CardView"

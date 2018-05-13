@@ -27,7 +27,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="QUESTION"
+        android:text="Add Question"
         android:textColor="#FFFFFF"
         android:textSize="25sp"
         android:textStyle="bold" />
@@ -43,7 +43,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             tools:context=".CreateQuizQuestionActivity">
 
@@ -59,14 +59,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter Question Here"
-                    android:inputType="textCapSentences" />
+                    android:inputType="textCapSentences"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="5dp"
+                    />
             </LinearLayout>
 
             <!-- Question Type Layout -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -79,42 +84,45 @@
                 <RadioGroup
                     android:id="@+id/rg_AnswerType"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <RadioButton
                         android:id="@+id/radio_CheckBox"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_margin="2dp"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginBottom="2dp"
                         android:onClick="onRadioButtonClicked"
                         android:text="Check Box [For multiple Answers]"
                         android:textColor="#37474F"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
 
                         />
 
                     <RadioButton
                         android:id="@+id/radio_RadioButton"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_margin="2dp"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginBottom="2dp"
                         android:onClick="onRadioButtonClicked"
                         android:text="Radio Button [For Single Answers]"
                         android:textColor="#37474F"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <RadioButton
                         android:id="@+id/radio_UserInput"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_margin="2dp"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginRight="2dp"
                         android:onClick="onRadioButtonClicked"
                         android:text="User Input [For taking Input From User]"
                         android:textColor="#37474F"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                 </RadioGroup>
             </LinearLayout>

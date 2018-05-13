@@ -22,7 +22,7 @@ public class CustomUserChannelAdapter extends ArrayAdapter<ChannelList> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView( int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         if (convertView == null){
             convertView = inflter.from(getContext()).inflate(R.layout.activity_user_channel,parent,false);

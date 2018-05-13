@@ -25,11 +25,23 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SignInActivity extends AppCompatActivity {
 
     // Declare an instance of FirebaseAuth
     private FirebaseAuth mAuth;
+    private DatabaseReference mUserRef;
+    private DatabaseReference mDatabase;
+    FirebaseUser user;
+    String adminFlag;
+    String userId;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +72,6 @@ public class SignInActivity extends AppCompatActivity {
             }
 
         });
-
 
         /**
          * When Sign In button is clicked perform the actions
@@ -252,10 +263,39 @@ public class SignInActivity extends AppCompatActivity {
 
     public void signInUser() {
 
-        // Sign in success, take signed-in user's information to channel activity
-        Intent channelIntent = new Intent(SignInActivity.this,HomeActivity.class);
-        startActivity(channelIntent);
-        finish();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        userId = String.valueOf(user.getUid());
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mUserRef = mDatabase.child("SQ_Users/").child(user.getUid());
+
+        mUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                adminFlag = String.valueOf(dataSnapshot.child("AdminFlag").getValue());
+                userName = String.valueOf(dataSnapshot.child("Name").getValue());
+
+                if(adminFlag.equals("Yes")) {
+                    //Take the user to Admin Screen
+                    Intent adminIntent = new Intent(SignInActivity.this, AdminHomeActivity.class);
+                    startActivity(adminIntent);
+
+                }else {
+                    Intent homeIntent = new Intent(SignInActivity.this,HomeActivity.class);
+                    homeIntent.putExtra("userName", userName);
+                    startActivity(homeIntent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     /**

@@ -10,18 +10,6 @@
     >
 
     <TextView
-        android:id="@+id/textview_Logout"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/logout_yellow"
-        android:gravity="center"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="logout"
-        />
-
-    <TextView
         android:id="@+id/textview_CloseMenu"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -42,13 +30,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/textview_Logout"
+        android:layout_below="@id/textview_CloseMenu"
         >
         <ImageView
             android:id="@+id/imageview_UserImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher_round"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/userimage_default"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             />
@@ -70,7 +58,7 @@
             android:textColor="@color/orange"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
-            android:onClick="editProfile"
+            android:onClick="editProfilePressed"
             />
 
     </LinearLayout>
@@ -82,7 +70,6 @@
         android:orientation="horizontal"
         android:layout_marginTop="5dp"
         android:layout_below="@id/layout_UserProfile"
-
         >
 
         <TextView
@@ -152,53 +139,18 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layout_Moderator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/layout_Score"
-        android:visibility="invisible"
-        >
+    <TextView
+        android:id="@+id/textview_Logout"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:background="@drawable/logout_yellow"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="logout"
+        />
 
-        <TextView
-            android:id="@+id/textview_ModeratorPanel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Moderator"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:background="@drawable/button_bg"
-            android:gravity="center"
-            android:textStyle="bold"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_Admin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/layout_Score"
-        android:visibility="invisible"
-        >
-
-        <TextView
-            android:id="@+id/textview_AdminPanel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Admin Panel"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:background="@drawable/button_bg"
-            android:gravity="center"
-            android:textStyle="bold"
-            />
-
-    </LinearLayout>
 </RelativeLayout>

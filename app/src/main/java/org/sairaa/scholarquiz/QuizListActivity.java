@@ -3,6 +3,8 @@ package org.sairaa.scholarquiz;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -12,10 +14,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 import java.util.ArrayList;
@@ -56,7 +62,14 @@ public class QuizListActivity extends AppCompatActivity {
     private DatabaseReference mQuizListRef;
     private DatabaseReference mSubscriptionListRef;
     private FirebaseUser user;
+
+    StorageReference downloadImageStorageReference;
+    FirebaseStorage storage;
+    Bitmap bitmap;
+    ImageView imageView_UserPhoto;
+
     String userId;
+    String userName;
 
     Dialog menuDialog;
 
@@ -76,6 +89,7 @@ public class QuizListActivity extends AppCompatActivity {
         channelName = channelBundle.getString("channelName","Channel Name Default");
         moderatorName = channelBundle.getString("moderatorName","Moderator Name Default");
         moderatorId = channelBundle.getString("moderatorId", "Moderator ID");
+        userName = channelBundle.getString("userName", "User Name");
 
         TextView title_TextView = findViewById(R.id.textView_Title);
         title_TextView.setText(String.valueOf(channelName));
@@ -87,6 +101,9 @@ public class QuizListActivity extends AppCompatActivity {
         // To get User id of Current user so we can travel to Subscription List of User
         user = FirebaseAuth.getInstance().getCurrentUser();
         userId = user.getUid();
+
+        storage = FirebaseStorage.getInstance();
+        downloadImageStorageReference = storage.getReferenceFromUrl("gs://scholar-quiz.appspot.com").child("images/").child(userId);
 
         Button createQuizButton = findViewById(R.id.button_CreateQuiz);
 
@@ -174,6 +191,7 @@ public class QuizListActivity extends AppCompatActivity {
                     quizListToQuizIntent.putExtra("moderatorId", moderatorId);
                     quizListToQuizIntent.putExtra("quizListKey", quizListKey);
                     quizListToQuizIntent.putExtra("quizTitle", quizTitle);
+                    quizListToQuizIntent.putExtra("userName", userName);
 
                     startActivity(quizListToQuizIntent);
                 }
@@ -197,7 +215,7 @@ public class QuizListActivity extends AppCompatActivity {
                 quizListToUserChannelIntent.putExtra("channelName",channelName);
                 quizListToUserChannelIntent.putExtra("moderatorName",moderatorName);
                 quizListToUserChannelIntent.putExtra("moderatorId",moderatorId);
-
+                quizListToUserChannelIntent.putExtra("userName",userName);
 
                 startActivity(quizListToUserChannelIntent);
                 finish();
@@ -213,7 +231,7 @@ public class QuizListActivity extends AppCompatActivity {
                 createQuizIntent.putExtra("channelName",channelName);
                 createQuizIntent.putExtra("moderatorName",moderatorName);
                 createQuizIntent.putExtra("moderatorId",moderatorId);
-
+                createQuizIntent.putExtra("userName",userName);
                 startActivity(createQuizIntent);
             }
         });
@@ -230,6 +248,30 @@ public class QuizListActivity extends AppCompatActivity {
 
         menuDialog.setContentView(R.layout.menupopup);
         menuDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextView txtUserName = (TextView) menuDialog.getWindow().findViewById(R.id.textview_UserName);
+        txtUserName.setText(userName);
+
+        // Download User Image from Firebase and show it to User.
+        final long ONE_MEGABYTE = 1024 * 1024;
+        downloadImageStorageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imageView_UserPhoto.setImageBitmap(bitmap);
+
+            }
+        });
+
+        imageView_UserPhoto = menuDialog.getWindow().findViewById(R.id.imageview_UserImage);
+
+        if(bitmap != null) {
+            imageView_UserPhoto.setImageBitmap(bitmap);
+        }else {
+            imageView_UserPhoto.setImageResource(R.drawable.userimage_default);
+        }
+
+
         menuDialog.show();
     }
 
@@ -256,13 +298,27 @@ public class QuizListActivity extends AppCompatActivity {
         }
     }
 
+
+    public void editProfilePressed(View view) {
+
+        Intent editProfileIntent = new Intent(QuizListActivity.this, UserProfileActivity.class);
+        startActivity(editProfileIntent);
+
+        finish();
+
+    }
+
     /**
      * 4. Function to execute when user presses MyChannel
      * */
 
     public void myChannelPressed(View view) {
 
-        startActivity(new Intent(QuizListActivity.this, UserChannelActivity.class));
+        Intent myChannelIntent = new Intent(QuizListActivity.this, UserChannelActivity.class);
+
+        myChannelIntent.putExtra("userName", userName);
+        startActivity(myChannelIntent);
+
         finish();
     }
 
@@ -272,7 +328,11 @@ public class QuizListActivity extends AppCompatActivity {
 
     public void allChannelPressed(View view) {
 
-        startActivity(new Intent(QuizListActivity.this, AllChannelListActivity.class));
+        Intent allChannelIntent = new Intent(QuizListActivity.this, AllChannelListActivity.class);
+
+        allChannelIntent.putExtra("userName", userName);
+        startActivity(allChannelIntent);
+
         finish();
     }
 
@@ -282,7 +342,11 @@ public class QuizListActivity extends AppCompatActivity {
 
     public void myScorecardPressed(View view) {
 
-        startActivity(new Intent(QuizListActivity.this, MyScorecardChannelActivity.class));
+        Intent myScorecardIntent = new Intent(QuizListActivity.this, MyScorecardChannelActivity.class);
+
+        myScorecardIntent.putExtra("userName", userName);
+        startActivity(myScorecardIntent);
+
         finish();
     }
 
@@ -292,7 +356,11 @@ public class QuizListActivity extends AppCompatActivity {
 
     public void leaderboardPressed(View view) {
 
-        startActivity(new Intent(QuizListActivity.this, LeaderboardChannelActivity.class));
+        Intent myLeaderboardIntent = new Intent(QuizListActivity.this, LeaderboardChannelActivity.class);
+
+        myLeaderboardIntent.putExtra("userName", userName);
+        startActivity(myLeaderboardIntent);
+
         finish();
     }
     /**
@@ -302,6 +370,12 @@ public class QuizListActivity extends AppCompatActivity {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public void homeButton(View view){
+        Intent homeIntent = new Intent(QuizListActivity.this, HomeActivity.class);
+        homeIntent.putExtra("userName", userName);
+        startActivity(homeIntent);
     }
 
 }

@@ -54,6 +54,7 @@ public class CustomAllChannelAdapter extends ArrayAdapter<ChannelList> {
          * - Add the channel id to Subscription Table in Firebase
          * - Set the Flag to Y for the Channel
          * */
+
         convertView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -75,7 +76,6 @@ public class CustomAllChannelAdapter extends ArrayAdapter<ChannelList> {
             }
 
         });
-
         return convertView;
     }
 }

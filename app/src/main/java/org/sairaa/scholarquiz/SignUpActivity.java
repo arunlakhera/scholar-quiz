@@ -17,19 +17,23 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SignUpActivity extends AppCompatActivity {
 
     // Declare Firebase Instance
     private FirebaseAuth mAuth;
-
-    // Declare Firebase Database Reference
-
+    private DatabaseReference mUserRef;
     private DatabaseReference mDatabase;
-
     FirebaseUser user;
+
+    String adminFlag;
+    String userId;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,16 +75,28 @@ public class SignUpActivity extends AppCompatActivity {
                 if (isNetworkAvailable()){
 
                     // Declare variable to fetch values entered in email and password field
+
+                    EditText userName_EditText = findViewById(R.id.editText_Name);
                     EditText emailId_EditText = findViewById(R.id.editText_EmailId);
+                    EditText slackId_EditText = findViewById(R.id.editText_SlackId);
                     EditText password_EditText = findViewById(R.id.editText_Password);
                     EditText confirmPassword_EditText = findViewById(R.id.editText_ConfirmPassword);
 
                     // Store the value in variables after converting them to string
+                    String userInputName = String.valueOf(userName_EditText.getText());
                     String email = String.valueOf(emailId_EditText.getText());
+                    String userInputSlackId = String.valueOf(slackId_EditText.getText());
                     String password = String.valueOf(password_EditText.getText());
                     String confirmPassword = String.valueOf(confirmPassword_EditText.getText());
 
-                    if (email.isEmpty()) {
+                    if (userInputName.isEmpty()) {
+
+                        // Show message if User Name is not provided
+                        Toast.makeText(SignUpActivity.this, "User Name is required for Sign Up...", Toast.LENGTH_SHORT).show();
+
+                        // Set the focus to email id Field
+                        userName_EditText.requestFocus();
+                    }else if (email.isEmpty()) {
 
                         // Show message if email is not provided
                         Toast.makeText(SignUpActivity.this, "Email ID is required for Sign Up...", Toast.LENGTH_SHORT).show();
@@ -96,7 +112,14 @@ public class SignUpActivity extends AppCompatActivity {
                         // Set the focus to email id Field
                         emailId_EditText.requestFocus();
 
-                    }else if (password.isEmpty()) {
+                    }else if (userInputSlackId.isEmpty()) {
+
+                        // Show message if User Name is not provided
+                        Toast.makeText(SignUpActivity.this, "Slack ID is required for Sign Up...", Toast.LENGTH_SHORT).show();
+
+                        // Set the focus to email id Field
+                        slackId_EditText.requestFocus();
+                    } else if (password.isEmpty()) {
 
                         // Show message if password is not provided
                         Toast.makeText(SignUpActivity.this, "Please enter a Password...", Toast.LENGTH_SHORT).show();
@@ -117,10 +140,9 @@ public class SignUpActivity extends AppCompatActivity {
                                             // Call function to update the Firebase Database
                                             updateDatabase();
 
-                                            // Sign in success, take signed-in user's information to channel activity
-                                            Intent channelIntent = new Intent(SignUpActivity.this, HomeActivity.class);
-                                            startActivity(channelIntent);
-                                            finish();
+                                            // SignUp user
+
+                                            signUpUser();
 
                                         } else {
 
@@ -130,12 +152,12 @@ public class SignUpActivity extends AppCompatActivity {
                                             String errorCode = ((FirebaseAuthUserCollisionException) task.getException()).getErrorCode();
 
                                             if (errorCode.equals("ERROR_EMAIL_ALREADY_IN_USE")) {
-                                                err += "User already exists. You can use different Email ID to Sign Up...";
+                                                err = "User already exists. You can use different Email ID to Sign Up...";
+                                                Toast.makeText(SignUpActivity.this, err, Toast.LENGTH_SHORT).show();
                                             }else{
-                                                err += errorCode;
+                                                err = errorCode;
                                             }
 
-                                            Toast.makeText(SignUpActivity.this, err, Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
@@ -186,8 +208,44 @@ public class SignUpActivity extends AppCompatActivity {
         mDatabase.child(userId).child("Name").setValue(name);
         mDatabase.child(userId).child("EmailId").setValue(userEmail);
         mDatabase.child(userId).child("SlackId").setValue(slackId);
+        mDatabase.child(userId).child("ModeratorFlag").setValue("No");
+        mDatabase.child(userId).child("AdminFlag").setValue("No");
 
     }
+
+    public void signUpUser(){
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        userId = String.valueOf(user.getUid());
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mUserRef = mDatabase.child("SQ_Users/").child(user.getUid());
+
+        mUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                adminFlag = String.valueOf(dataSnapshot.child("AdminFlag").getValue());
+                userName = String.valueOf(dataSnapshot.child("Name").getValue());
+
+                // Sign up success, take signed-up user's information to home activity
+                Intent signUpIntent = new Intent(SignUpActivity.this, HomeActivity.class);
+                signUpIntent.putExtra("userName", userName);
+                startActivity(signUpIntent);
+                finish();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
 
     /**
      * Function to check if the Email Id entered is in valid format i.e contains @ and .com

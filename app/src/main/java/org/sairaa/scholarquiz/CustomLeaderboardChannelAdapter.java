@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class CustomLeaderboardChannelAdapter extends ArrayAdapter<ChannelList> {
+public class CustomLeaderboardChannelAdapter extends ArrayAdapter<ChannelList>{
 
     LayoutInflater inflter;
     ChannelList leaderboardChannel;
@@ -32,14 +32,7 @@ public class CustomLeaderboardChannelAdapter extends ArrayAdapter<ChannelList> {
 
         TextView channelTextView = convertView.findViewById(R.id.textView_Channel);
         channelTextView.setText(String.valueOf(leaderboardChannel.getChannelName()));
-        /*
-        TextView totalQuizTextView = convertView.findViewById(R.id.textView_TotalQuiz);
-        TextView totalUserQuizTextView = convertView.findViewById(R.id.textView_TotalUserQuiz);
 
-
-        totalQuizTextView.setText(String.valueOf("Number of Quiz: " + myScorecardChannel.getTotalNumberOfQuiz()));
-        totalUserQuizTextView.setText(String.valueOf("You Participated: " + myScorecardChannel.getTotalUserQuiz()));
-*/
         notifyDataSetChanged();
 
         return convertView;
